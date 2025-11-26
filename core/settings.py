@@ -24,6 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv("SECRET_KEY")
 DEBUG = config('DEBUG', default=False, cast=bool)
 ALLOWED_HOSTS = [h.strip() for h in config('ALLOWED_HOSTS', default='localhost').split(',')]
 CSRF_TRUSTED_ORIGINS = [h.strip() for h in config('CSRF_TRUSTED_ORIGINS', default='http://localhost').split(',')]
@@ -91,7 +92,7 @@ DATABASES = {
         "NAME": os.environ.get("DB_NAME", default="collabeya_db"),
         "USER": os.environ.get("DB_USER", default="collabeya_user"),
         "PASSWORD": os.environ.get("DB_PASSWORD", default="supersecretpassword"),
-        "HOST": os.environ.get("DB_HOST", default="db"),
+        "HOST": os.environ.get("DB_HOST", default="collabeya_database"),
         "PORT": os.environ.get("DB_PORT", default=5432)
     }
 }

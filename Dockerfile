@@ -11,7 +11,7 @@ WORKDIR /app
 COPY . .
 
 # install dependencies
-RUN apk add --no-cache bash postgresql-client ffmpeg \
+RUN apk add --no-cache bash postgresql-client \
     && apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev python3-dev \
     && pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt \

@@ -30,6 +30,12 @@ services:
     container_name: collabeya_backend
     environment:
       PYTHONUNBUFFERED: "1"
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: collabeya_database
+      DB_PORT: 5432
+      SECRET_KEY: ${SECRET_KEY}
     depends_on:
       db:
         condition: service_healthy
@@ -38,13 +44,22 @@ services:
     volumes:
       - media_data:/app/media
       - collabeya_static:/app/static
+    ports:
+      - "8000:8000"
     restart: unless-stopped
 
   worker:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: django_worker
+    container_name: django_worker_collabeya
+    environment:
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_HOST: collabeya_database
+      DB_PORT: 5432
+      SECRET_KEY: ${SECRET_KEY}
     command: python manage.py rqworker default
     depends_on:
       redis:
