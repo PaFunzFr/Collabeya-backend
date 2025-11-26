@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: collabeya_database
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: collabeya_redis
+    volumes:
+      - redis_data:/data
+    command: ["redis-server", "--appendonly", "yes"]
+
+  web:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    container_name: collabeya_backend
+    environment:
+      PYTHONUNBUFFERED: "1"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    volumes:
+      - media_data:/app/media
+      - collabeya_static:/app/static
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: backend.Dockerfile
+    container_name: django_worker
+    command: python manage.py rqworker default
+    depends_on:
+      redis:
+        condition: service_started
+    volumes:
+      - media_data:/app/media
+    restart: unless-stopped
+
+volumes:
+  media_data:
+  collabeya_static:
+  postgres_data:
+  redis_data:
