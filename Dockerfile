@@ -16,7 +16,7 @@ RUN apk add --no-cache bash postgresql-client ffmpeg \
     && pip install --upgrade pip \
     && pip install --no-cache-dir -r requirements.txt \
     && apk del .build-deps \
-    && chmod +x backend.entrypoint.sh
+    && chmod +x entrypoint.sh
 
 EXPOSE 8000
 

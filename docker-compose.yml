@@ -26,7 +26,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: backend.Dockerfile
+      dockerfile: Dockerfile
     container_name: collabeya_backend
     environment:
       PYTHONUNBUFFERED: "1"
@@ -43,7 +43,7 @@ services:
   worker:
     build:
       context: .
-      dockerfile: backend.Dockerfile
+      dockerfile: Dockerfile
     container_name: django_worker
     command: python manage.py rqworker default
     depends_on:
