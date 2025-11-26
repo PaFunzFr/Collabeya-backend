@@ -79,7 +79,7 @@ coverage.xml
 # Static & media files
 staticfiles/
 static/
-media/
+media/avatars/users
 
 # Build and distribution
 build/
