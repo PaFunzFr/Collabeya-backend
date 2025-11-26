@@ -1,0 +1,11 @@
+Welcome to Collabeya
+
+Dear {{ user }},
+
+Welcome to <a href="{{ site_url }}">Collabeya</a>! Your account has been successfully activated,
+and you're all set to start collaborating, messaging, and staying connected with your team.
+
+We're excited to have you on board. Jump into your workspace, join channels, and keep the conversation flowing!
+
+Happy collaborating,
+Your Collabeya Team
